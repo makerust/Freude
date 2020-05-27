@@ -1,2 +1,0 @@
-# Freude
-Trackpad Project
