@@ -14,6 +14,10 @@
 
 void IQS5xx_ReadTxRxLines(uint8_t *X1, uint8_t *Y1);
 void IQS5xx_WriteTxRxLines(uint8_t *X1, uint8_t *Y1);
+void IQS5xx_ReadTouchStrength(uint8_t *Z1, uint8_t *Z2);
+void IQS5xx_ReadTouchArea(uint8_t *A1);
+void IQS5xx_ReadXAbs(uint16_t *X1);
+void IQS5xx_ReadYAbs(uint16_t *Y1);
 
 //*****************************************************************************
 //
@@ -312,5 +316,3 @@ void IQS5xx_WriteTxRxLines(uint8_t *X1, uint8_t *Y1);
 #define	ZoomConsDistance_adr	0x06CD	//(READ/WRITE/E2)	//2 BYTES; 
 
 #endif
-
-
