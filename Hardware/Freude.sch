@@ -323,23 +323,10 @@ Text Label 8700 2600 0    50   ~ 0
 SCL_UC
 Text Label 8700 2700 0    50   ~ 0
 SDA_UC
-$Comp
-L Connector:Conn_01x05_Female J1
-U 1 1 5F19281F
-P 4850 2000
-F 0 "J1" H 4877 2026 50  0000 L CNN
-F 1 "Conn_01x05_Female" H 4877 1935 50  0000 L CNN
-F 2 ".pretty:503480-0500" H 4850 2000 50  0001 C CNN
-F 3 "~" H 4850 2000 50  0001 C CNN
-	1    4850 2000
-	1    0    0    -1  
-$EndComp
 Connection ~ 4050 1800
 Connection ~ 4250 1900
 Wire Wire Line
 	3150 2100 3900 2100
-Wire Wire Line
-	4650 2100 4450 2100
 Wire Wire Line
 	10050 2800 9550 2800
 $Comp
@@ -481,10 +468,6 @@ Wire Wire Line
 Wire Wire Line
 	1050 1050 1150 1050
 Wire Wire Line
-	4050 1800 4650 1800
-Wire Wire Line
-	4250 1900 4650 1900
-Wire Wire Line
 	3150 1800 4050 1800
 Wire Wire Line
 	3150 1900 4250 1900
@@ -572,7 +555,7 @@ F 3 "~" H 9150 1300 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	9000 1550 9300 1550
+	9000 1550 9200 1550
 Connection ~ 9000 1550
 Wire Wire Line
 	9250 1300 9300 1300
@@ -592,7 +575,7 @@ Connection ~ 8750 1350
 Wire Wire Line
 	9350 1300 9350 1200
 Wire Wire Line
-	9350 1200 8100 1200
+	9350 1200 8550 1200
 Wire Wire Line
 	8100 1200 8100 1400
 Connection ~ 9350 1300
@@ -624,8 +607,6 @@ F 3 "~" H 10250 2300 50  0001 C CNN
 	1    10250 2300
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	9700 2400 10050 2400
 $Comp
 L power:+3.3V #PWR0114
 U 1 1 5F255CED
@@ -664,10 +645,6 @@ $EndComp
 Wire Wire Line
 	8600 2000 9150 2000
 Wire Wire Line
-	8600 2200 9700 2200
-Wire Wire Line
-	9700 2200 9700 2400
-Wire Wire Line
 	8600 2800 9200 2800
 Text Label 9850 2800 2    50   ~ 0
 SDA_UC
@@ -704,8 +681,6 @@ $EndComp
 Wire Wire Line
 	8600 2300 10050 2300
 Wire Wire Line
-	8600 2100 10050 2100
-Wire Wire Line
 	8600 3000 9000 3000
 Wire Wire Line
 	8600 3100 8900 3100
@@ -729,7 +704,7 @@ Wire Wire Line
 	9400 2900 10050 2900
 Text Notes 10300 2500 0    50   ~ 0
 Joy Stick Connector
-Text Notes 10350 3050 0    50   ~ 0
+Text Notes 10350 3100 0    50   ~ 0
 To touch controller
 Text Notes 9900 4000 0    50   ~ 0
 Single wire programming
@@ -850,15 +825,13 @@ $EndComp
 Wire Wire Line
 	4300 2150 4300 2000
 Wire Wire Line
-	4300 2000 4650 2000
-Wire Wire Line
 	4100 2150 4300 2150
 Wire Wire Line
-	3900 2100 3900 2450
+	3900 2100 3900 2400
 Wire Wire Line
-	3900 2450 4650 2450
+	3900 2400 4650 2400
 Wire Wire Line
-	4650 2450 4650 2200
+	4650 2400 4650 2200
 Wire Wire Line
 	9550 2500 10050 2500
 $Comp
@@ -967,4 +940,120 @@ Wire Wire Line
 Connection ~ 10600 1600
 Wire Wire Line
 	10600 1600 10600 1650
+Wire Wire Line
+	8600 2100 9700 2100
+Wire Wire Line
+	9700 2100 9700 2400
+Wire Wire Line
+	9700 2400 10050 2400
+Wire Wire Line
+	8600 2200 9550 2200
+Wire Wire Line
+	9550 2200 9550 2050
+Wire Wire Line
+	9550 2050 10000 2050
+Wire Wire Line
+	10000 2050 10000 2100
+Wire Wire Line
+	10000 2100 10050 2100
+$Comp
+L power:+3.3V #PWR0118
+U 1 1 5F1DA2D3
+P 8550 1200
+F 0 "#PWR0118" H 8550 1050 50  0001 C CNN
+F 1 "+3.3V" H 8550 1350 50  0000 C CNN
+F 2 "" H 8550 1200 50  0001 C CNN
+F 3 "" H 8550 1200 50  0001 C CNN
+	1    8550 1200
+	-1   0    0    -1  
+$EndComp
+Connection ~ 8550 1200
+Wire Wire Line
+	8550 1200 8100 1200
+$Comp
+L power:GND #PWR0119
+U 1 1 5F1DA4D1
+P 9200 1550
+F 0 "#PWR0119" H 9200 1300 50  0001 C CNN
+F 1 "GND" H 9205 1377 50  0000 C CNN
+F 2 "" H 9200 1550 50  0001 C CNN
+F 3 "" H 9200 1550 50  0001 C CNN
+	1    9200 1550
+	1    0    0    -1  
+$EndComp
+Connection ~ 9200 1550
+Wire Wire Line
+	9200 1550 9300 1550
+$Comp
+L power:GND #PWR0120
+U 1 1 5F1DA6B3
+P 8000 3500
+F 0 "#PWR0120" H 8000 3250 50  0001 C CNN
+F 1 "GND" H 8005 3327 50  0000 C CNN
+F 2 "" H 8000 3500 50  0001 C CNN
+F 3 "" H 8000 3500 50  0001 C CNN
+	1    8000 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8000 3500 8000 3400
+Wire Wire Line
+	8000 3400 8100 3400
+Connection ~ 8000 3400
+Connection ~ 8100 3400
+Wire Wire Line
+	8100 3400 8200 3400
+$Comp
+L Device:R_Small R4
+U 1 1 5F1E7FFC
+P 7500 1500
+F 0 "R4" H 7559 1546 50  0000 L CNN
+F 1 "10k" H 7559 1455 50  0000 L CNN
+F 2 "Resistors_SMD:R_0402" H 7500 1500 50  0001 C CNN
+F 3 "~" H 7500 1500 50  0001 C CNN
+	1    7500 1500
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	7500 1600 7500 1700
+Wire Wire Line
+	7500 1700 7600 1700
+Wire Wire Line
+	7500 1400 7500 1200
+Wire Wire Line
+	7500 1200 8100 1200
+Connection ~ 8100 1200
+$Comp
+L Connector:Conn_01x06_Female J1
+U 1 1 5F1F693D
+P 4950 2000
+F 0 "J1" H 5050 2100 50  0000 C CNN
+F 1 "Conn_01x06_Female" H 5400 2000 50  0000 C CNN
+F 2 ".pretty:503480-0600" H 4950 2000 50  0001 C CNN
+F 3 "~" H 4950 2000 50  0001 C CNN
+	1    4950 2000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4050 1800 4750 1800
+Wire Wire Line
+	4250 1900 4750 1900
+Wire Wire Line
+	4300 2000 4750 2000
+Wire Wire Line
+	4450 2100 4750 2100
+Wire Wire Line
+	4750 2200 4650 2200
+Wire Wire Line
+	8600 2900 9100 2900
+Wire Wire Line
+	9100 2900 9100 3450
+Wire Wire Line
+	9100 3450 9900 3450
+Wire Wire Line
+	9900 3450 9900 3300
+Wire Wire Line
+	9900 3300 10050 3300
+Text Label 8700 2900 0    50   ~ 0
+AZO_UNK
 $EndSCHEMATC
