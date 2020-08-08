@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name Freude_BreakoutBoard-rescue)(type Legacy)(uri ${KIPRJMOD}/Freude_BreakoutBoard-rescue.lib)(options "")(descr ""))
+)
