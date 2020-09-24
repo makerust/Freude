@@ -1,0 +1,48 @@
+/*
+ * IQS_Series.c
+
+ *
+ *  Created on: Sep 22, 2020
+ *      Author: Tom
+ */
+//-----includes--------------
+#include stm32l4xx_hal_i2c.c
+#include IQS_Series.h
+
+void IQS_ResoWriteXY(uint8_t *X1, uint8_t *Y1){
+	const uint8_t x_addr = 0x063D;
+	const uint8_t y_addr = 0x063E;
+
+
+	HAL_I2C_Mem_Write(&hi2c1, IQS_I2C_Address, x_addr, 1, &X1, 1, 1000 );
+	HAL_I2C_Mem_Write(&hi2c1, IQS_I2C_Address, y_addr, 1, &Y1, 1, 1000 );
+
+};
+
+void IQS_ResoReadXY(uint8_t *X1, uint8_t *Y1){
+	const uint8_t x_addr = 0x063D;
+	const uint8_t y_addr = 0x063E;
+	uint8_t buffer[2];
+
+	HAL_I2C_Mem_Read(&hi2c1, IQS_I2C_Address, x_addr, 1, *buffer[0], 1, 1000 );
+	HAL_I2C_Mem_Read(&hi2c1, IQS_I2C_Address, y_addr, 1, *buffer[1], 1, 1000 );
+
+	*X1 = buffer[0];
+	*Y1 = buffer[1];
+
+};
+
+
+
+void IQS_ReadPosABS(uint8_t *X1, uint8_t *Y1){
+	const uint8_t x_addr = 0x063D;
+	const uint8_t y_addr = 0x063E;
+	uint8_t buffer[2];
+
+	HAL_I2C_Mem_Read(&hi2c1, IQS_I2C_Address, x_addr, 1, *buffer[0], 1, 1000 );
+	HAL_I2C_Mem_Read(&hi2c1, IQS_I2C_Address, y_addr, 1, *buffer[1], 1, 1000 );
+
+	*X1 = buffer[0];
+	*Y1 = buffer[1];
+
+};

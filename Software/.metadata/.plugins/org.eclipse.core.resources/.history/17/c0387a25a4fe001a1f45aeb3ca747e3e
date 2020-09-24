@@ -1,0 +1,18 @@
+/*
+ * IQS_Series.h
+ *
+ *  Created on: Sep 22, 2020
+ *      Author: Tom
+ */
+
+#ifndef APPLICATION_USER_IQS_SERIES_H_
+#define APPLICATION_USER_IQS_SERIES_H_
+
+static const uint8_t IQS_I2C_Address = (0x74<<1); //left shift because HAL requires
+
+void IQS_ResoWriteXY(uint8_t *X1, uint8_t *Y1);
+void IQS_ResoReadXY(uint8_t *X1, uint8_t *Y1);
+void IQS_ReadPosABS(uint16_t *X1, uint16_t *Y1);
+
+
+#endif /* APPLICATION_USER_IQS_SERIES_H_ */
