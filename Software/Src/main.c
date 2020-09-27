@@ -43,7 +43,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "IQS_Series.h"
+#include <stdio.h>
+#include <string.h>
+#include <IQS_Series.h>
+
+extern char gpio_pin11_int_flag;
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -86,6 +91,7 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN 0 */
 uint8_t xres = 7;
 uint8_t yres = 6;
+
 /* USER CODE END 0 */
 
 /**
@@ -112,6 +118,10 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+  //4MHz
+  //tick time 100ms
+  //if prescale is 1000
+  //overflow @400
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -120,17 +130,19 @@ int main(void)
   MX_DAC1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  IQS_AckReset(&hi2c1);
   IQS_ResoWriteXY(&hi2c1, xres, yres);
-  uint8_t TxResoWritten[] = "Reso set as "xres " by "yres"\r\n";
-  HAL_UART_Transmit(&huart1, (uint8_t *)TxResoWritten, sizeof(TxResoWritten),1000);
+
+  char buf[80] = {0};
+  snprintf(buf,sizeof(buf),"Reso set as %u by %u \r\n", (unsigned)xres, (unsigned)yres );
+  HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf),1000);
 
   uint8_t read_x_res = 0;
   uint8_t read_y_res = 0;
-  IQS_ResoReadXY(&hi2c1, read_x_res, read_y_res);
-  uint8_t TxResoReadBack[] = "Reso read as "read_x_res" by "read_y_res"\r\r";
-  HAL_UART_Transmit(&huart1, (uint8_t *)TxResoReadBack, sizeof(TxResoReadBack), 1000);
-  uint8_t read_x = 0;
-  uint8_t read_y = 0;
+  IQS_ResoReadXY(&hi2c1, &read_x_res, &read_y_res);
+  snprintf(buf,sizeof(buf),"Reso read as %u by %u \r\n", (unsigned)read_x_res, (unsigned)read_y_res );
+  HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf),1000);
+  IQS_resumeOperation(&hi2c1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -138,20 +150,16 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  uint8_t TxHelloWorld[] = "Hello World\r\n";
-	  HAL_UART_Transmit(&huart1, (uint8_t *)TxHelloWorld, sizeof(TxHelloWorld),1000);
-	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
 
-	  IQS_ReadPosABS(&hi2c1, read_x, read_y);
-	  uint8_t TxBuff1[] = " , ";
-	  uint8_t TxBuff2[] = "\r\n";
-	  HAL_UART_Transmit(&huart1, (uint8_t *)read_x, sizeof(read_x), 1000);
-	  HAL_UART_Transmit(&huart1, (uint8_t *)TxBuff1, sizeof (TxBuff1), 1000);
-	  HAL_UART_Transmit(&huart1, (uint8_t *)read_y, sizeof(read_y), 1000);
-	  HAL_UART_Transmit(&huart1, (uint8_t *)TxBuff2, sizeof (TxBuff2), 1000);
-
-	  HAL_Delay(300);
     /* USER CODE BEGIN 3 */
+	  if (gpio_pin11_int_flag == 0) continue;
+	  uint16_t read_x = 0;
+	  uint16_t read_y = 0;
+	  IQS_ReadPosABS(&hi2c1, &read_x, &read_y);
+	  snprintf(buf,sizeof(buf),"%u, %u \r\n", (unsigned)read_x, (unsigned)read_y);
+	  HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf),1000);
+	  gpio_pin11_int_flag = 0;
+	  IQS_resumeOperation(&hi2c1);
   }
   /* USER CODE END 3 */
 }
@@ -364,6 +372,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : PA0 PA1 PA2 PA7 
+                           PA8 PA12 PA15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_7 
+                          |GPIO_PIN_8|GPIO_PIN_12|GPIO_PIN_15;
+  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pins : PA3 PA11 */
   GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_11;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -384,12 +400,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : PB1 PB3 PB4 PB5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pin : TestName_Pin */
   GPIO_InitStruct.Pin = TestName_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(TestName_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 

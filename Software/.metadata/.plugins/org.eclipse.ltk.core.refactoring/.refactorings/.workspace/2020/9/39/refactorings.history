@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;Software/Application/User/IQS_Series&apos;" deleteContents="false" description="Delete resource &apos;Software/Application/User/IQS_Series&apos;" element1="/Software/Application/User/IQS_Series" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1600792606115"/>&#x0A;&#x0A;&#x0A;<refactoring comment="Delete resource &apos;Software/Application/User/IQS_Series&apos;" deleteContents="false" description="Delete resource &apos;Software/Application/User/IQS_Series&apos;" element1="/Software/Application/User/IQS_Series" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1600792714492"/>
-</session>

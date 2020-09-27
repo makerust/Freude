@@ -57,6 +57,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern char gpio_pin11_int_flag;
 
 /* USER CODE END ET */
 
