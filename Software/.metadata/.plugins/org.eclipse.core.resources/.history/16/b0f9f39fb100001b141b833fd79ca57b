@@ -121,13 +121,13 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   IQS_ResoWriteXY(&hi2c1, xres, yres);
-  uint8_t TxResoWritten[] = "Reso set as "xres " by "yres"\r\n";
+  uint8_t TxResoWritten[] = "Resolution to be "xres " by "yres"\r\n";
   HAL_UART_Transmit(&huart1, (uint8_t *)TxResoWritten, sizeof(TxResoWritten),1000);
 
   uint8_t read_x_res = 0;
   uint8_t read_y_res = 0;
   IQS_ResoReadXY(&hi2c1, read_x_res, read_y_res);
-  uint8_t TxResoReadBack[] = "Reso read as "read_x_res" by "read_y_res"\r\r";
+  uint8_t TxResoReadBack[] = "Resolution read as "read_x_res" by "read_y_res"\r\r";
   HAL_UART_Transmit(&huart1, (uint8_t *)TxResoReadBack, sizeof(TxResoReadBack), 1000);
   uint8_t read_x = 0;
   uint8_t read_y = 0;
@@ -143,12 +143,8 @@ int main(void)
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
 
 	  IQS_ReadPosABS(&hi2c1, read_x, read_y);
-	  uint8_t TxBuff1[] = " , ";
-	  uint8_t TxBuff2[] = "\r\n";
-	  HAL_UART_Transmit(&huart1, (uint8_t *)read_x, sizeof(read_x), 1000);
-	  HAL_UART_Transmit(&huart1, (uint8_t *)TxBuff1, sizeof (TxBuff1), 1000);
-	  HAL_UART_Transmit(&huart1, (uint8_t *)read_y, sizeof(read_y), 1000);
-	  HAL_UART_Transmit(&huart1, (uint8_t *)TxBuff2, sizeof (TxBuff2), 1000);
+	  uint*_t TxCoordMessage[] = ""read_x,","read_y"\r\n";
+	  HAL_UART_Transmit(&huart1, (uint8_t *)TxCoordMessage, sizeof(TxCoordMessage), 1000);
 
 	  HAL_Delay(300);
     /* USER CODE BEGIN 3 */
