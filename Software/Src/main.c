@@ -71,6 +71,8 @@ DAC_HandleTypeDef hdac1;
 
 I2C_HandleTypeDef hi2c1;
 
+TIM_HandleTypeDef htim7;
+
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
@@ -83,6 +85,7 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_DAC1_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_TIM7_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -91,6 +94,12 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN 0 */
 uint8_t xres = 7;
 uint8_t yres = 6;
+uint8_t tick_size = 50; //x times the timer overflow tick events occur
+uint8_t tick_counter = 1;
+uint8_t tock_size = 5;//y times the tick counter tock events occur
+uint8_t tock_counter =0;
+HAL_StatusTypeDef i2c_status;
+
 
 /* USER CODE END 0 */
 
@@ -129,9 +138,25 @@ int main(void)
   MX_I2C1_Init();
   MX_DAC1_Init();
   MX_USART1_UART_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   IQS_AckReset(&hi2c1);
   IQS_ResoWriteXY(&hi2c1, xres, yres);
+
+  uint8_t throwaway2;
+  i2c_status = HAL_I2C_Mem_Read(&hi2c1, IQS_I2C_Address, 0x0004, 1, &throwaway2, 1, 1000);//address is for minor version, but line mostly checks status
+  if(i2c_status != HAL_OK){
+	  MX_I2C1_Init();
+	  if(IQS_CheckReset(&hi2c1)==1){
+		  IQS_AckReset(&hi2c1);
+	  }
+	  uint8_t i2c_err_message[]="i2c status error\r\n";
+	  HAL_UART_Transmit(&huart1, (uint8_t*)i2c_err_message, sizeof(i2c_err_message),100);
+	  IQS_ResoWriteXY(&hi2c1, xres, yres);
+  }
+
+  HAL_TIM_Base_Start(&htim7);
+  HAL_TIM_Base_Start_IT(&htim7);
 
   char buf[80] = {0};
   snprintf(buf,sizeof(buf),"Reso set as %u by %u \r\n", (unsigned)xres, (unsigned)yres );
@@ -143,6 +168,7 @@ int main(void)
   snprintf(buf,sizeof(buf),"Reso read as %u by %u \r\n", (unsigned)read_x_res, (unsigned)read_y_res );
   HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf),1000);
   IQS_resumeOperation(&hi2c1);
+  //HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -158,10 +184,51 @@ int main(void)
 	  IQS_ReadPosABS(&hi2c1, &read_x, &read_y);
 	  snprintf(buf,sizeof(buf),"%u, %u \r\n", (unsigned)read_x, (unsigned)read_y);
 	  HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf),1000);
-	  gpio_pin11_int_flag = 0;
 	  IQS_resumeOperation(&hi2c1);
+	  //uint16_t current_tick=tick_counter;
+	  //snprintf(buf,sizeof(buf), "tick %u \r\n", (unsigned)current_tick);
+	  //HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf),1000);
+
+
+
+	  if (tick_counter >= (tick_size-1)){
+		  //User code to happen every "tick" below
+		  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+
+		  //Clean up
+		  tock_counter++;
+		  tick_counter=0;
+	  }
+
+	  if(tock_counter >=(tock_size-1)){
+		  //User code to happen every "tock" below
+		  uint8_t throwaway1;
+		  i2c_status = HAL_I2C_Mem_Read(&hi2c1, IQS_I2C_Address, 0x0004, 1, &throwaway1, 1, 1000);//address is for minor version, but line mostly checks status
+		  if(i2c_status != HAL_OK){
+			  MX_I2C1_Init();
+			  uint8_t i2c_err_message[]="i2c status error\r\n";
+			  HAL_UART_Transmit(&huart1, (uint8_t*)i2c_err_message, sizeof(i2c_err_message),100);
+
+			  if(IQS_CheckReset(&hi2c1)==1){
+				  IQS_AckReset(&hi2c1);
+				  IQS_ResoWriteXY(&hi2c1, xres, yres);
+				  uint8_t i2c_err_message2[]="i2c reset\r\n";
+				  HAL_UART_Transmit(&huart1, (uint8_t*)i2c_err_message2, sizeof(i2c_err_message2),100);
+			  }
+		  }
+
+		  //clean up
+		  tock_counter=0;
+
+	  }
+
   }
   /* USER CODE END 3 */
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+{
+    tick_counter++;
 }
 
 /**
@@ -304,6 +371,44 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief TIM7 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM7_Init(void)
+{
+
+  /* USER CODE BEGIN TIM7_Init 0 */
+
+  /* USER CODE END TIM7_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM7_Init 1 */
+
+  /* USER CODE END TIM7_Init 1 */
+  htim7.Instance = TIM7;
+  htim7.Init.Prescaler = 1000;
+  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim7.Init.Period = 400;
+  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM7_Init 2 */
+
+  /* USER CODE END TIM7_Init 2 */
 
 }
 
