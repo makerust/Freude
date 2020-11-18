@@ -13,19 +13,19 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text GLabel 5850 2700 2    50   Input ~ 0
-XA00
-Text GLabel 5850 2800 2    50   Input ~ 0
-XA01
-Text GLabel 5850 2900 2    50   Input ~ 0
-XA02
-Text GLabel 5850 3100 2    50   Input ~ 0
-XA04
 Text GLabel 5850 3300 2    50   Input ~ 0
+XA00
+Text GLabel 5850 3200 2    50   Input ~ 0
+XA01
+Text GLabel 5850 3100 2    50   Input ~ 0
+XA02
+Text GLabel 5850 2900 2    50   Input ~ 0
+XA04
+Text GLabel 5850 2700 2    50   Input ~ 0
 XA06
 Text GLabel 5850 3000 2    50   Input ~ 0
 XA03
-Text GLabel 5850 3200 2    50   Input ~ 0
+Text GLabel 5850 2800 2    50   Input ~ 0
 XA05
 Wire Wire Line
 	4400 2700 4250 2700
@@ -119,8 +119,6 @@ Wire Wire Line
 	6800 1950 6800 2150
 Wire Wire Line
 	6600 1350 6600 1800
-Wire Wire Line
-	6000 1450 5700 1450
 Wire Wire Line
 	6300 1550 6300 1450
 Wire Wire Line
@@ -351,34 +349,6 @@ Wire Wire Line
 	4200 4850 4500 4850
 Wire Wire Line
 	4200 4950 4500 4950
-Text GLabel 4900 5750 3    50   Input ~ 0
-XA00
-Text GLabel 5000 5750 3    50   Input ~ 0
-XA01
-Text GLabel 5100 5750 3    50   Input ~ 0
-XA02
-Text GLabel 5300 5750 3    50   Input ~ 0
-XA04
-Text GLabel 5500 5750 3    50   Input ~ 0
-XA06
-Text GLabel 5200 5750 3    50   Input ~ 0
-XA03
-Text GLabel 5400 5750 3    50   Input ~ 0
-XA05
-Wire Wire Line
-	4900 5750 4900 5350
-Wire Wire Line
-	5000 5350 5000 5750
-Wire Wire Line
-	5100 5750 5100 5350
-Wire Wire Line
-	5200 5350 5200 5750
-Wire Wire Line
-	5300 5750 5300 5350
-Wire Wire Line
-	5400 5350 5400 5750
-Wire Wire Line
-	5500 5750 5500 5350
 Wire Wire Line
 	6800 1350 6800 1750
 $Comp
@@ -415,13 +385,13 @@ Wire Notes Line
 $Comp
 L Connector:Conn_01x06_Female J1
 U 1 1 5F1F693D
-P 7500 2250
-F 0 "J1" H 7600 2350 50  0000 C CNN
-F 1 "Conn_01x06_Female" H 7950 2250 50  0000 C CNN
-F 2 ".pretty:503480-0600" H 7500 2250 50  0001 C CNN
-F 3 "~" H 7500 2250 50  0001 C CNN
-	1    7500 2250
-	1    0    0    -1  
+P 7500 2350
+F 0 "J1" H 7600 2450 50  0000 C CNN
+F 1 "Conn_01x06_Female" H 7950 2350 50  0000 C CNN
+F 2 ".pretty:503480-0600" H 7500 2350 50  0001 C CNN
+F 3 "~" H 7500 2350 50  0001 C CNN
+	1    7500 2350
+	1    0    0    1   
 $EndComp
 Wire Wire Line
 	6600 2050 7300 2050
@@ -433,4 +403,38 @@ Wire Wire Line
 	7000 2350 7300 2350
 Wire Wire Line
 	7300 2450 7200 2450
+Wire Wire Line
+	5500 5750 5500 5350
+Wire Wire Line
+	5400 5350 5400 5750
+Wire Wire Line
+	5300 5750 5300 5350
+Wire Wire Line
+	5200 5350 5200 5750
+Wire Wire Line
+	5100 5750 5100 5350
+Wire Wire Line
+	5000 5350 5000 5750
+Wire Wire Line
+	4900 5750 4900 5350
+Text GLabel 5400 5750 3    50   Input ~ 0
+XA05
+Text GLabel 5200 5750 3    50   Input ~ 0
+XA03
+Text GLabel 5300 5750 3    50   Input ~ 0
+XA04
+Text GLabel 5100 5750 3    50   Input ~ 0
+XA02
+Text GLabel 5000 5750 3    50   Input ~ 0
+XA01
+Text GLabel 4900 5750 3    50   Input ~ 0
+XA00
+Text GLabel 5500 5750 3    50   Input ~ 0
+XA06
+Text Notes 3100 3500 0    50   ~ 0
+3 and 4 are INTENTIONALLY flipped
+Text Label 5750 1450 0    50   ~ 0
+NRST
+Wire Wire Line
+	5700 1450 6000 1450
 $EndSCHEMATC
