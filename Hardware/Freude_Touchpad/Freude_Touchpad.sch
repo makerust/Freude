@@ -21,8 +21,6 @@ Text GLabel 5850 3100 2    50   Input ~ 0
 XA02
 Text GLabel 5850 2900 2    50   Input ~ 0
 XA04
-Text GLabel 5850 2700 2    50   Input ~ 0
-XA06
 Text GLabel 5850 3000 2    50   Input ~ 0
 XA03
 Text GLabel 5850 2800 2    50   Input ~ 0
@@ -37,9 +35,9 @@ Text GLabel 4250 2900 0    50   Input ~ 0
 YA02
 Text GLabel 4250 3000 0    50   Input ~ 0
 YA03
-Text GLabel 4250 3100 0    50   Input ~ 0
-YA04
 Text GLabel 4250 3200 0    50   Input ~ 0
+YA04
+Text GLabel 4250 3100 0    50   Input ~ 0
 YA05
 Wire Wire Line
 	4250 2800 4400 2800
@@ -48,11 +46,9 @@ Wire Wire Line
 Wire Wire Line
 	4250 3000 4400 3000
 Wire Wire Line
-	4400 3100 4250 3100
+	4400 3200 4250 3200
 Wire Wire Line
-	4250 3200 4400 3200
-Wire Wire Line
-	5850 2700 5700 2700
+	4250 3100 4400 3100
 Wire Wire Line
 	5700 2800 5850 2800
 Wire Wire Line
@@ -107,7 +103,7 @@ L Device:C_Small C1
 U 1 1 5EE255D8
 P 6100 1450
 F 0 "C1" V 5871 1450 50  0000 C CNN
-F 1 "C_Small" V 5962 1450 50  0000 C CNN
+F 1 "100nf" V 5962 1450 50  0000 C CNN
 F 2 "Resistors_SMD:R_0402" H 6100 1450 50  0001 C CNN
 F 3 "~" H 6100 1450 50  0001 C CNN
 	1    6100 1450
@@ -300,9 +296,9 @@ Connection ~ 3700 2050
 Wire Wire Line
 	3700 2050 3850 2050
 Wire Wire Line
-	3700 1300 4300 1300
+	3700 1300 3950 1300
 Wire Wire Line
-	3450 2050 3700 2050
+	3450 2050 3500 2050
 Connection ~ 3600 1300
 Wire Wire Line
 	3600 1300 3450 1300
@@ -315,12 +311,12 @@ Wire Wire Line
 Wire Wire Line
 	7000 2350 7000 2400
 $Comp
-L Custom_Touchpad:Custom_Touchpad X1
+L Custom_Touchpad:Custom_Touchpad5x5 X1
 U 1 1 5F1BAD65
 P 4700 4950
 F 0 "X1" H 5558 5070 50  0000 L CNN
 F 1 "Custom_Touchpad" H 5558 4979 50  0000 L CNN
-F 2 "Custom_Touchpad:Touchpad" H 4700 4950 50  0001 C CNN
+F 2 "" H 4700 4950 50  0001 C CNN
 F 3 "" H 4700 4950 50  0001 C CNN
 	1    4700 4950
 	1    0    0    -1  
@@ -404,8 +400,6 @@ Wire Wire Line
 Wire Wire Line
 	7300 2450 7200 2450
 Wire Wire Line
-	5500 5750 5500 5350
-Wire Wire Line
 	5400 5350 5400 5750
 Wire Wire Line
 	5300 5750 5300 5350
@@ -429,12 +423,38 @@ Text GLabel 5000 5750 3    50   Input ~ 0
 XA01
 Text GLabel 4900 5750 3    50   Input ~ 0
 XA00
-Text GLabel 5500 5750 3    50   Input ~ 0
-XA06
-Text Notes 3100 3500 0    50   ~ 0
-3 and 4 are INTENTIONALLY flipped
 Text Label 5750 1450 0    50   ~ 0
 NRST
 Wire Wire Line
 	5700 1450 6000 1450
+Text Notes 3100 3650 0    50   ~ 0
+YA05 and YA04 are intentionally\nswitched. The IQS572 can \ncompensate for this. See page\n20 of datasheet.
+$Comp
+L Connector:TestPoint TP01
+U 1 1 5FBD9D21
+P 3950 1300
+F 0 "TP01" H 4008 1418 50  0000 L CNN
+F 1 "TestPoint" H 4008 1327 50  0000 L CNN
+F 2 "Measurement_Points:Measurement_Point_Square-SMD-Pad_Small" H 4150 1300 50  0001 C CNN
+F 3 "~" H 4150 1300 50  0001 C CNN
+	1    3950 1300
+	1    0    0    -1  
+$EndComp
+Connection ~ 3950 1300
+Wire Wire Line
+	3950 1300 4300 1300
+$Comp
+L Connector:TestPoint TP02
+U 1 1 5FBE3310
+P 3500 2050
+F 0 "TP02" H 3450 2200 50  0000 R CNN
+F 1 "TestPoint" H 3550 2300 50  0000 R CNN
+F 2 "Measurement_Points:Measurement_Point_Square-SMD-Pad_Small" H 3700 2050 50  0001 C CNN
+F 3 "~" H 3700 2050 50  0001 C CNN
+	1    3500 2050
+	-1   0    0    1   
+$EndComp
+Connection ~ 3500 2050
+Wire Wire Line
+	3500 2050 3700 2050
 $EndSCHEMATC
